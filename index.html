@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Aroma Thai Massage & Wellness — Fuengirola</title>
+<meta name="description" content="Masaje tailandés y ayurvédico en el corazón de Fuengirola. Manos expertas, aromas que sanan, un santuario donde el tiempo se detiene.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Karla:wght@300;400;500;600&display=swap');
+
+:root{
+  --cream:#F4EDE0;
+  --cream-deep:#EAE0CC;
+  --ink:#3A2A1F;
+  --ink-soft:#6B5A48;
+  --terracotta:#B5651D;
+  --terracotta-soft:#C97D3C;
+  --gold:#C9A876;
+  --burgundy:#6B2737;
+  --burgundy-soft:#8C3B4D;
+  --white-warm:#FBF7EE;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:auto;}
+body{
+  font-family:'Karla',sans-serif;
+  background:var(--ink);
+  color:var(--cream);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+h1,h2,h3,.serif{
+  font-family:'Fraunces',serif;
+  font-weight:500;
+  letter-spacing:-0.01em;
+}
+
+/* ===== VIDEO CANVAS LAYER ===== */
+#scrubVideo{ position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
+
+#videoCanvas{
+  position:fixed; top:0; left:0; width:100vw; height:100vh;
+  z-index:1; opacity:0; transition:opacity .1s linear;
+  background:#1a120c;
+}
+
+#videoCanvas::after{ content:''; }
+
+.video-veil{
+  position:fixed; top:0; left:0; width:100vw; height:100vh;
+  z-index:2; pointer-events:none;
+  background:linear-gradient(180deg, rgba(20,12,8,.55) 0%, rgba(20,12,8,.08) 22%, rgba(20,12,8,.08) 70%, rgba(20,12,8,.65) 100%);
+}
+
+/* grain texture for warmth, not tech-grid */
+.grain{
+  position:fixed; inset:0; z-index:3; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* drifting incense particles — signature element */
+.incense-layer{ position:fixed; inset:0; z-index:4; pointer-events:none; overflow:hidden; }
+.incense-dot{
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle, rgba(201,168,118,.55), rgba(201,168,118,0) 70%);
+  filter:blur(1px);
+}
+
+/* ===== CONTAINER ===== */
+.cinematic-container{
+  position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:5;
+  pointer-events:none;
+}
+.cinematic-container a, .cinematic-container button{ pointer-events:auto; }
+
+/* ===== HEADER ===== */
+.main-header{
+  position:absolute; top:0; left:0; width:100%;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:22px 28px; pointer-events:auto;
+  z-index:20;
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-family:'Fraunces',serif; font-size:19px; font-weight:500; letter-spacing:.02em;
+  color:var(--white-warm); text-decoration:none;
+}
+.brand .mark{
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid rgba(251,247,238,.55);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;
+}
+.header-right{ display:flex; align-items:center; gap:16px; }
+
+.lang-switch{ display:flex; gap:2px; background:rgba(20,12,8,.35); border:1px solid rgba(251,247,238,.18); border-radius:20px; padding:3px; backdrop-filter:blur(6px); }
+.lang-btn{
+  border:none; background:transparent; color:rgba(251,247,238,.6);
+  font-family:'Karla',sans-serif; font-size:11px; letter-spacing:.06em; font-weight:600;
+  padding:6px 11px; border-radius:16px; cursor:pointer; transition:all .25s ease;
+}
+.lang-btn.active{ background:var(--white-warm); color:var(--ink); }
+
+.header-cta{
+  display:none;
+  font-family:'Karla',sans-serif; font-size:12px; font-weight:600; letter-spacing:.05em;
+  color:var(--ink); background:var(--gold);
+  padding:10px 18px; border-radius:30px; text-decoration:none;
+  white-space:nowrap;
+}
+
+.social-icons{ display:flex; gap:10px; align-items:center; }
+.social-icons a{
+  width:32px; height:32px; border-radius:50%;
+  border:1px solid rgba(251,247,238,.3); display:flex; align-items:center; justify-content:center;
+  color:var(--white-warm); transition:background .25s ease, border-color .25s ease;
+}
+.social-icons a:hover{ background:rgba(251,247,238,.12); border-color:rgba(251,247,238,.5); }
+.social-icons svg{ width:16px; height:16px; fill:currentColor; }
+
+.footer-socials{ display:flex; gap:14px; justify-content:center; margin:18px 0; }
+.footer-socials a{
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(251,247,238,.25); display:flex; align-items:center; justify-content:center;
+  color:rgba(251,247,238,.7); transition:background .25s ease, color .25s ease;
+}
+.footer-socials a:hover{ background:rgba(251,247,238,.1); color:var(--white-warm); }
+.footer-socials svg{ width:17px; height:17px; fill:currentColor; }
+
+.map-embed-wrap{ border-radius:18px; overflow:hidden; margin-top:18px; border:1px solid rgba(58,42,31,.1); }
+.map-embed-wrap iframe{ width:100%; height:280px; border:0; display:block; }
+
+@media(min-width:769px){
+  .header-cta{ display:inline-block; }
+}
+
+/* ===== PROGRESS BAR ===== */
+.build-progress{
+  position:absolute; bottom:0; left:0; width:100%;
+  padding:0 28px 22px; pointer-events:none; z-index:20;
+  display:flex; flex-direction:column; gap:8px;
+}
+.progress-label{
+  font-family:'Karla',sans-serif; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:rgba(251,247,238,.65); display:flex; justify-content:space-between;
+}
+.progress-track{ width:100%; height:2px; background:rgba(251,247,238,.18); border-radius:2px; overflow:hidden; }
+.progress-fill{ height:100%; width:0%; background:var(--gold); border-radius:2px; transition:width .05s linear; }
+
+/* ===== WHATSAPP FLOAT ===== */
+.wa-float{
+  position:absolute; left:20px; bottom:90px; z-index:25; pointer-events:auto;
+  display:flex; align-items:center; gap:10px;
+}
+.wa-btn{
+  width:54px; height:54px; border-radius:50%;
+  background:#3aa856; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+  text-decoration:none;
+  animation:pulse-wa 2.6s ease-in-out infinite;
+}
+.wa-btn svg{ width:26px; height:26px; fill:#fff; }
+@keyframes pulse-wa{
+  0%,100%{ box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 0 rgba(58,168,86,.5); }
+  50%{ box-shadow:0 6px 20px rgba(0,0,0,.35), 0 0 0 10px rgba(58,168,86,0); }
+}
+
+/* ===== LOADER ===== */
+#loadingOverlay{
+  position:fixed; inset:0; background:var(--ink); z-index:100;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:18px;
+  transition:opacity .8s ease, visibility .8s ease;
+}
+.loader-mark{
+  width:56px; height:56px; border-radius:50%; border:1px solid rgba(251,247,238,.3);
+  display:flex; align-items:center; justify-content:center; position:relative;
+}
+.loader-mark::before{
+  content:''; position:absolute; inset:-1px; border-radius:50%;
+  border:1px solid transparent; border-top-color:var(--gold);
+  animation:spin 1.4s linear infinite;
+}
+.loader-mark span{ font-family:'Fraunces',serif; font-size:20px; color:var(--gold); }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.loader-text{ font-family:'Karla',sans-serif; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:rgba(251,247,238,.5); }
+.loader-hidden{ opacity:0; visibility:hidden; }
+
+/* ===== SLIDES ===== */
+.slide{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; align-items:center;
+  opacity:0; transition:opacity .6s ease;
+  padding:0 28px;
+}
+.slide.active{ opacity:1; }
+.slide-inner{ max-width:640px; }
+.slide.align-right .slide-inner{ margin-left:auto; text-align:right; }
+.slide.align-center{ justify-content:center; text-align:center; }
+.slide.align-center .slide-inner{ max-width:720px; }
+
+.eyebrow{
+  font-family:'Karla',sans-serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:14px; display:block; opacity:0; transform:translateY(10px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.slide.active .eyebrow{ opacity:1; transform:translateY(0); transition-delay:.1s; }
+
+.slide-title{
+  font-size:clamp(32px, 6.8vw, 64px); line-height:1.18; color:var(--white-warm);
+  font-weight:500; margin-bottom:18px; overflow:visible;
+}
+.slide-title em{ font-style:italic; color:var(--gold); font-weight:400; line-height:1.18; }
+
+.slide-body{
+  font-family:'Karla',sans-serif; font-size:clamp(14px,2vw,16px); line-height:1.6;
+  color:rgba(251,247,238,.82); max-width:460px; font-weight:300;
+  opacity:0; transform:translateY(14px); transition:opacity .8s ease .25s, transform .8s ease .25s;
+}
+.slide.align-right .slide-body{ margin-left:auto; }
+.slide.align-center .slide-body{ margin:0 auto; }
+.slide.active .slide-body{ opacity:1; transform:translateY(0); }
+
+.slide-title .char{
+  display:inline-block; opacity:0;
+  transform:translateY(46px); filter:blur(10px);
+  transition:opacity .8s cubic-bezier(.25,1,.5,1), transform .8s cubic-bezier(.25,1,.5,1), filter .8s cubic-bezier(.25,1,.5,1);
+}
+.slide.active .slide-title .char{ opacity:1; transform:translateY(0); filter:blur(0); }
+
+/* service price chip used in slide 5 */
+.price-row{
+  display:flex; gap:10px; margin-top:22px; flex-wrap:wrap;
+  opacity:0; transform:translateY(14px); transition:opacity .8s ease .4s, transform .8s ease .4s;
+}
+.slide.active .price-row{ opacity:1; transform:translateY(0); }
+.price-chip{
+  border:1px solid rgba(251,247,238,.28); border-radius:30px;
+  padding:8px 16px; font-size:12px; color:var(--white-warm); font-family:'Karla',sans-serif;
+  display:flex; gap:6px; align-items:baseline;
+}
+.price-chip b{ color:var(--gold); font-weight:600; }
+
+.cta-row{
+  margin-top:26px; display:flex; gap:14px; flex-wrap:wrap;
+  opacity:0; transform:translateY(14px); transition:opacity .8s ease .45s, transform .8s ease .45s;
+}
+.slide.active .cta-row{ opacity:1; transform:translateY(0); }
+.slide.align-right .cta-row, .slide.align-center .cta-row{ justify-content:flex-end; }
+.slide.align-center .cta-row{ justify-content:center; }
+
+.btn{
+  font-family:'Karla',sans-serif; font-size:13px; font-weight:600; letter-spacing:.03em;
+  padding:14px 26px; border-radius:30px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+  transition:transform .25s ease, background .25s ease;
+}
+.btn:active{ transform:scale(.96); }
+.btn-primary{ background:var(--gold); color:var(--ink); }
+.btn-ghost{ border:1px solid rgba(251,247,238,.4); color:var(--white-warm); }
+
+/* scroll hint */
+.scroll-hint{
+  position:absolute; bottom:120px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  opacity:.75; transition:opacity .4s ease;
+}
+.scroll-hint.hide{ opacity:0; }
+.scroll-hint span{ font-family:'Karla',sans-serif; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:rgba(251,247,238,.7); }
+.scroll-hint .line{ width:1px; height:30px; background:linear-gradient(180deg, rgba(251,247,238,.7), transparent); animation:hint-drop 1.8s ease-in-out infinite; }
+@keyframes hint-drop{ 0%{ transform:scaleY(0); transform-origin:top; opacity:0; } 40%{ transform:scaleY(1); opacity:1; } 100%{ transform:scaleY(1); transform-origin:bottom; opacity:0; } }
+
+/* ===== STATIC SECTIONS (non-video, normal scroll doc flow look-alike via fixed slides) ===== */
+.section{
+  position:relative; z-index:10; background:var(--cream); color:var(--ink);
+}
+.section-inner{ max-width:1080px; margin:0 auto; padding:110px 28px; }
+
+.section-eyebrow{
+  font-family:'Karla',sans-serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--terracotta); margin-bottom:16px; display:block;
+}
+.section h2{ font-size:clamp(30px,5vw,48px); line-height:1.1; margin-bottom:18px; color:var(--ink); }
+.section .lead{ font-family:'Karla',sans-serif; font-weight:300; font-size:17px; line-height:1.7; color:var(--ink-soft); max-width:600px; }
+
+/* services grid */
+.services-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:56px; }
+.service-card{
+  background:var(--white-warm); border-radius:18px; padding:30px 26px;
+  border:1px solid rgba(58,42,31,.08);
+  display:flex; flex-direction:column; gap:14px;
+}
+.service-card .num{ font-family:'Fraunces',serif; font-size:13px; color:var(--terracotta); font-style:italic; }
+.service-card h3{ font-size:20px; color:var(--ink); }
+.service-card p{ font-family:'Karla',sans-serif; font-size:14px; line-height:1.6; color:var(--ink-soft); font-weight:300; flex-grow:1; }
+.service-card .meta{ display:flex; justify-content:space-between; align-items:baseline; font-family:'Karla',sans-serif; font-size:12px; color:var(--ink-soft); border-top:1px solid rgba(58,42,31,.1); padding-top:14px; }
+.service-card .meta b{ color:var(--terracotta); font-size:15px; }
+.service-card .ideal{ font-size:11.5px; color:var(--gold); font-style:italic; font-family:'Fraunces',serif; }
+.service-card .book-btn{ align-self:flex-start; margin-top:4px; padding:11px 22px; font-size:12.5px; }
+
+@media(max-width:768px){ .services-grid{ grid-template-columns:1fr; } }
+
+/* testimonial */
+.testimonial-section{ background:var(--burgundy); color:var(--cream); }
+.testimonial-section .section-eyebrow{ color:var(--gold); }
+.quote-mark{ font-family:'Fraunces',serif; font-size:80px; line-height:.5; color:rgba(201,168,118,.4); margin-bottom:10px; }
+.testimonials{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:50px; }
+.t-card{ }
+.t-card p{ font-family:'Fraunces',serif; font-style:italic; font-size:17px; line-height:1.5; color:var(--white-warm); margin-bottom:14px; }
+.t-card .stars{ color:var(--gold); font-size:13px; margin-bottom:10px; letter-spacing:2px; }
+.google-badge-row{ display:flex; align-items:center; gap:14px; margin:18px 0 6px; flex-wrap:wrap; }
+.google-rating{ display:flex; align-items:center; gap:10px; }
+.google-g{ width:28px; height:28px; flex-shrink:0; }
+.google-rating .score{ font-family:'Fraunces',serif; font-size:22px; color:var(--white-warm); }
+.google-rating .stars-row{ display:flex; flex-direction:column; gap:2px; }
+.google-rating .stars-row .stars{ color:var(--gold); font-size:13px; letter-spacing:1px; margin:0; }
+.google-rating .count{ font-family:'Karla',sans-serif; font-size:11.5px; color:rgba(251,247,238,.6); }
+.t-card .google-mark{ display:flex; align-items:center; gap:6px; margin-bottom:10px; }
+.t-card .google-mark svg{ width:15px; height:15px; }
+.t-card .google-mark span{ font-family:'Karla',sans-serif; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:rgba(251,247,238,.5); }
+.reviews-cta{ margin-top:38px; text-align:center; }
+.t-card .who{ font-family:'Karla',sans-serif; font-size:12px; color:rgba(251,247,238,.6); text-transform:uppercase; letter-spacing:.08em; }
+@media(max-width:768px){ .testimonials{ grid-template-columns:1fr; gap:36px; } }
+
+/* hipocrates strip */
+.quote-strip{ background:var(--ink); color:var(--white-warm); text-align:center; padding:100px 28px; }
+.quote-strip blockquote{ font-family:'Fraunces',serif; font-style:italic; font-size:clamp(24px,4vw,38px); max-width:740px; margin:0 auto 20px; line-height:1.35; }
+.quote-strip cite{ font-family:'Karla',sans-serif; font-size:12px; letter-spacing:.1em; color:var(--gold); }
+
+/* location / footer */
+.location-section{ background:var(--cream-deep); }
+.location-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:60px; align-items:center; }
+.location-card{
+  background:var(--ink); color:var(--cream); border-radius:22px; padding:40px 36px;
+}
+.location-card h3{ font-family:'Fraunces',serif; font-size:24px; margin-bottom:18px; color:var(--white-warm); }
+.loc-line{ display:flex; gap:12px; align-items:flex-start; margin-bottom:16px; font-family:'Karla',sans-serif; font-size:14px; font-weight:300; color:rgba(251,247,238,.85); }
+.loc-line b{ display:block; font-weight:600; color:var(--gold); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:3px; }
+.loc-ctas{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+@media(max-width:768px){ .location-grid{ grid-template-columns:1fr; gap:36px; } }
+
+.site-footer{ background:var(--ink); color:rgba(251,247,238,.55); padding:40px 28px; text-align:center; font-family:'Karla',sans-serif; font-size:12px; }
+.site-footer .fbrand{ font-family:'Fraunces',serif; font-size:18px; color:var(--white-warm); margin-bottom:10px; }
+.site-footer a{ color:rgba(251,247,238,.55); text-decoration:none; }
+
+/* mobile adjustments */
+@media(max-width:768px){
+  .main-header{ padding:18px 18px; }
+  .brand{ font-size:16px; }
+  .lang-btn{ padding:5px 9px; font-size:10px; }
+  .build-progress{ padding:0 18px 18px; }
+  .section-inner{ padding:80px 20px; }
+  .wa-float{ left:14px; bottom:80px; }
+  .wa-btn{ width:48px; height:48px; }
+  .slide{ padding:0 20px; }
+  .slide.align-right .slide-inner, .slide.align-center .slide-inner{ text-align:left; margin-left:0; }
+  .slide.align-right .cta-row, .slide.align-center .cta-row{ justify-content:flex-start; }
+  .slide-body{ max-width:100%; }
+  .slide.align-right .slide-body{ margin-left:0; }
+  .social-icons{ display:none; }
+}
+
+::selection{ background:var(--gold); color:var(--ink); }
+:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001s !important; transition-duration:.2s !important; }
+}
+</style>
+</head>
+<body>
+
+<video id="scrubVideo" src="video.mp4" muted playsinline preload="auto"></video>
+<div id="fixedLayers">
+<canvas id="videoCanvas"></canvas>
+<div class="video-veil"></div>
+<div class="grain"></div>
+<div class="incense-layer" id="incenseLayer"></div>
+</div>
+
+<div class="cinematic-container">
+
+  <header class="main-header">
+    <a href="#" class="brand"><span class="mark">☸</span> Aroma Thai</a>
+    <div class="header-right">
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ru">RU</button>
+      </div>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/aroma.thai.massage/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.8.31-1.48.72-2.16 1.4C1.3 2.71.89 3.39.58 4.18c-.3.76-.5 1.64-.56 2.91C-.04 8.37-.05 8.78-.05 12.05s.01 3.68.07 4.96c.06 1.27.26 2.15.56 2.91.31.8.72 1.48 1.4 2.16.68.68 1.36 1.09 2.16 1.4.76.3 1.64.5 2.91.56 1.28.06 1.69.07 4.96.07s3.68-.01 4.96-.07c1.27-.06 2.15-.26 2.91-.56.8-.31 1.48-.72 2.16-1.4.68-.68 1.09-1.36 1.4-2.16.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.96s-.01-3.68-.07-4.96c-.06-1.27-.26-2.15-.56-2.91-.31-.8-.72-1.48-1.4-2.16C20.71 1.3 20.03.89 19.23.58c-.76-.3-1.64-.5-2.91-.56C14.99-.04 14.58-.05 11.31-.05L12 0m0 5.84c-3.42 0-6.2 2.78-6.2 6.2s2.78 6.2 6.2 6.2 6.2-2.78 6.2-6.2-2.78-6.2-6.2-6.2m0 10.23c-2.22 0-4.03-1.8-4.03-4.03 0-2.22 1.8-4.03 4.03-4.03 2.22 0 4.03 1.8 4.03 4.03 0 2.22-1.8 4.03-4.03 4.03M19.85 5.6c0 .8-.65 1.44-1.44 1.44-.8 0-1.44-.65-1.44-1.44 0-.8.65-1.44 1.44-1.44.8 0 1.44.65 1.44 1.44"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=100092399754630" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94"/></svg>
+        </a>
+      </div>
+      <a href="https://wa.me/34640867391" class="header-cta" target="_blank" data-i18n="headerCta">Reservar</a>
+    </div>
+  </header>
+
+  <!-- SLIDE 1 — hero / entrance -->
+  <section class="slide align-left" id="slide-1">
+    <div class="slide-inner">
+      <span class="eyebrow" data-i18n="s1_eyebrow">Fuengirola · Calle Oviedo, 2</span>
+      <h1 class="slide-title" data-i18n-title="s1_title">Aromas que sanan,<br>manos que despiertan</h1>
+      <p class="slide-body" data-i18n="s1_body">Un santuario en pleno centro de Fuengirola donde el masaje tailandés, ayurvédico y terapéutico te devuelve a tu mejor estado: cuerpo ligero, mente en calma.</p>
+      <div class="cta-row">
+        <a href="https://wa.me/34640867391" class="btn btn-primary" target="_blank" data-i18n="s1_cta1">Reservar por WhatsApp</a>
+        <a href="tel:+34640867391" class="btn btn-ghost" data-i18n="s1_cta2">Llamar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — entering / buddha -->
+  <section class="slide align-left" id="slide-2">
+    <div class="slide-inner">
+      <span class="eyebrow" data-i18n="s2_eyebrow">Bienvenida</span>
+      <h2 class="slide-title" data-i18n-title="s2_title">La puerta se abre<br><em>y el ruido se queda fuera</em></h2>
+      <p class="slide-body" data-i18n="s2_body">Buda te recibe en el umbral. Plantas, madera cálida y un primer aroma que ya empieza a bajarte las revoluciones antes de sentarte.</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — reception -->
+  <section class="slide align-right" id="slide-3">
+    <div class="slide-inner">
+      <span class="eyebrow" data-i18n="s3_eyebrow">Recepción</span>
+      <h2 class="slide-title" data-i18n-title="s3_title">Te escuchamos<br>antes de tocarte</h2>
+      <p class="slide-body" data-i18n="s3_body">Cada sesión empieza con una breve consulta: qué te molesta, qué necesitas hoy. Elegimos juntas la técnica, la presión y el aroma que te van a acompañar.</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — corridor / curtains transition -->
+  <section class="slide align-center" id="slide-4">
+    <div class="slide-inner">
+      <span class="eyebrow" data-i18n="s4_eyebrow">El pasillo</span>
+      <h2 class="slide-title" data-i18n-title="s4_title">Cada cortina que cruzas<br>te aleja un poco más del estrés</h2>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 — the table / treatment -->
+  <section class="slide align-left" id="slide-5">
+    <div class="slide-inner">
+      <span class="eyebrow" data-i18n="s5_eyebrow">La camilla</span>
+      <h2 class="slide-title" data-i18n-title="s5_title">Manos expertas,<br>presión exacta</h2>
+      <p class="slide-body" data-i18n="s5_body">Masaje tailandés con aceite, tradicional en seco, deportivo o balinés-sueco. Aceites premium DoTerra, Pranarom y Young Living. Tú decides cuánto tiempo quieres quedarte aquí.</p>
+      <div class="price-row">
+        <span class="price-chip" data-i18n-html="s5_chip1">60 min · <b>desde 55€</b></span>
+        <span class="price-chip" data-i18n-html="s5_chip2">90 min · <b>desde 85€</b></span>
+        <span class="price-chip" data-i18n-html="s5_chip3">120 min · <b>desde 110€</b></span>
+      </div>
+      <div class="cta-row">
+        <a href="#services" class="btn btn-primary" data-i18n="s5_cta">Ver todos los masajes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6 — closing -->
+  <section class="slide align-center" id="slide-6">
+    <div class="slide-inner">
+      <span class="eyebrow" data-i18n="s6_eyebrow">Tu momento</span>
+      <h2 class="slide-title" data-i18n-title="s6_title">Sal oliendo a gloria.<br><em>Vuelve cuando lo necesites.</em></h2>
+      <div class="cta-row">
+        <a href="https://wa.me/34640867391" class="btn btn-primary" target="_blank" data-i18n="s6_cta">Reservar mi sesión</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="scroll-hint" id="scrollHint">
+    <span data-i18n="scrollHint">Desliza</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="build-progress">
+    <div class="progress-label">
+      <span id="progressStage" data-i18n="stage1">Entrada</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="wa-float">
+    <a href="https://wa.me/34640867391" class="wa-btn" target="_blank" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.83.5 3.6 1.45 5.15L2 22l5.13-1.55a9.9 9.9 0 0 0 4.9 1.31h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.85 9.85 0 0 0 12.04 2m0 1.67c2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.24 8.24a8.2 8.2 0 0 1-4.17-1.14l-.3-.17-3.03.92.92-2.95-.2-.31a8.16 8.16 0 0 1-1.26-4.4c0-4.55 3.7-8.25 8.25-8.25M8.5 7.5c-.16 0-.43.06-.62.27-.2.21-.77.75-.77 1.84 0 1.08.79 2.13.9 2.28.12.15 1.62 2.5 4 3.4 2 .76 2.4.6 2.83.56.43-.04 1.4-.57 1.6-1.13.2-.55.2-1.02.14-1.13-.06-.1-.23-.16-.48-.29-.25-.12-1.48-.73-1.71-.81-.23-.08-.4-.12-.56.12-.17.25-.65.81-.8.97-.14.17-.29.18-.53.06-.25-.12-1.05-.39-2-1.24-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.01-.38.11-.5.12-.13.27-.32.4-.48.13-.16.18-.28.27-.46.08-.18.04-.34-.03-.48-.07-.13-.6-1.46-.83-1.96-.18-.4-.37-.43-.53-.44z"/></svg>
+    </a>
+  </div>
+
+  <div id="loadingOverlay">
+    <div class="loader-mark"><span>☸</span></div>
+    <div class="loader-text">Aroma Thai Massage</div>
+  </div>
+
+</div>
+
+<!-- ============ STATIC CONTENT BELOW THE CINEMATIC SECTION ============ -->
+<main class="section" id="staticContent">
+
+  <div class="section-inner" id="services">
+    <span class="section-eyebrow" data-i18n="menu_eyebrow">Catálogo aromático</span>
+    <h2 data-i18n="menu_title">Encuentra tu masaje perfecto</h2>
+    <p class="lead" data-i18n="menu_lead">Treinta minutos de desconexión o dos horas de viaje sensorial: tú eliges. Cada ficha incluye duración, precio y para qué es ideal.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="num">壱 / 02</span>
+        <h3 data-i18n="srv1_title">Masaje tailandés con aceite</h3>
+        <p data-i18n="srv1_desc">Tradición tailandesa con la suavidad del aceite caliente. Movimientos rítmicos y estiramientos delicados que desbloquean la energía estancada.</p>
+        <span class="ideal" data-i18n="srv1_ideal">Ideal para: estrés, fatiga muscular, piel seca</span>
+        <div class="meta"><span data-i18n="srv1_dur">60 / 90 / 120 min</span><b data-i18n="srv1_price">60€ · 85€ · 110€</b></div>
+        <a href="#" class="btn btn-primary book-btn" data-service-key="srv1_title" target="_blank" data-i18n="book_btn">Reservar</a>
+      </div>
+
+      <div class="service-card">
+        <span class="num">弐 / 02</span>
+        <h3 data-i18n="srv2_title">Masaje tradicional tailandés (sin aceite)</h3>
+        <p data-i18n="srv2_desc">Realizado en futón con ropa cómoda: digitopresiones, estiramientos pasivos y trabajo sobre las líneas energéticas del cuerpo.</p>
+        <span class="ideal" data-i18n="srv2_ideal">Ideal para: tensión profunda, movilidad, recuperación deportiva</span>
+        <div class="meta"><span data-i18n="srv2_dur">60 / 90 / 120 min</span><b data-i18n="srv2_price">70€ · 100€ · 125€</b></div>
+        <a href="#" class="btn btn-primary book-btn" data-service-key="srv2_title" target="_blank" data-i18n="book_btn">Reservar</a>
+      </div>
+
+      <div class="service-card">
+        <span class="num">参 / 02</span>
+        <h3 data-i18n="srv3_title">Masaje deportivo tailandés</h3>
+        <p data-i18n="srv3_desc">Versión dinámica adaptada a cuerpos activos: presión, estiramientos y movilización articular para liberar tensiones y prevenir lesiones.</p>
+        <span class="ideal" data-i18n="srv3_ideal">Ideal para: deportistas, recuperación muscular</span>
+        <div class="meta"><span data-i18n="srv3_dur">60 / 90 / 120 min</span><b data-i18n="srv3_price">70€ · 100€ · 125€</b></div>
+        <a href="#" class="btn btn-primary book-btn" data-service-key="srv3_title" target="_blank" data-i18n="book_btn">Reservar</a>
+      </div>
+
+      <div class="service-card">
+        <span class="num">四 / 02</span>
+        <h3 data-i18n="srv4_title">Masaje balinés-sueco</h3>
+        <p data-i18n="srv4_desc">Lo mejor de Oriente y Occidente: presiones profundas y aromaterapia balinesa con los movimientos largos y envolventes del masaje sueco.</p>
+        <span class="ideal" data-i18n="srv4_ideal">Ideal para: relajación profunda, circulación</span>
+        <div class="meta"><span data-i18n="srv4_dur">60 / 90 / 120 min</span><b data-i18n="srv4_price">55€ · 85€ · 110€</b></div>
+        <a href="#" class="btn btn-primary book-btn" data-service-key="srv4_title" target="_blank" data-i18n="book_btn">Reservar</a>
+      </div>
+
+      <div class="service-card">
+        <span class="num">伍 / 02</span>
+        <h3 data-i18n="srv5_title">Masaje con piedras calientes</h3>
+        <p data-i18n="srv5_desc">Piedras volcánicas colocadas estratégicamente para liberar tensiones profundas y equilibrar el flujo energético junto a un masaje manual.</p>
+        <span class="ideal" data-i18n="srv5_ideal">Ideal para: tensión muscular, dolores crónicos</span>
+        <div class="meta"><span data-i18n="srv5_dur">60 / 90 / 120 min</span><b data-i18n="srv5_price">60€ · 85€ · 110€</b></div>
+        <a href="#" class="btn btn-primary book-btn" data-service-key="srv5_title" target="_blank" data-i18n="book_btn">Reservar</a>
+      </div>
+
+      <div class="service-card">
+        <span class="num">六 / 02</span>
+        <h3 data-i18n="srv6_title">Consultas ayurvédicas y faciales</h3>
+        <p data-i18n="srv6_desc">Desde masajes faciales y craneales hasta consultas ayurvédicas y naturopáticas y planes de recuperación para cuerpos en movimiento.</p>
+        <span class="ideal" data-i18n="srv6_ideal">Pregúntanos por el plan que mejor se adapte a ti</span>
+        <div class="meta"><span data-i18n="srv6_dur">Consultar</span><b data-i18n="srv6_price">Desde 22€</b></div>
+        <a href="#" class="btn btn-primary book-btn" data-service-key="srv6_title" target="_blank" data-i18n="book_btn">Reservar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonial-section section">
+    <div class="section-inner">
+      <span class="section-eyebrow" data-i18n="rev_eyebrow">Lo que dicen al salir</span>
+      <h2 style="color:var(--white-warm)" data-i18n="rev_title">Clientes que vuelven cada vez que pasan por Fuengirola</h2>
+
+      <div class="google-badge-row">
+        <svg class="google-g" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5c-7.9 0-14.6 4.5-18 11.1z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-1.9 14-5.4l-6.5-5.4c-2 1.5-4.6 2.4-7.5 2.4-5.3 0-9.6-3.4-11.3-8l-6.6 5.1c3.3 6.6 10.1 11.3 17.9 11.3z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.6l6.5 5.4c3.8-3.5 6.7-8.8 6.7-15 0-1.2-.1-2.4-.4-3.5z"/></svg>
+        <div class="google-rating">
+          <span class="score">4.9</span>
+          <div class="stars-row">
+            <div class="stars">★★★★★</div>
+            <span class="count" data-i18n="google_count">Reseñas de Google</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonials">
+        <div class="t-card">
+          <div class="google-mark">
+            <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5c-7.9 0-14.6 4.5-18 11.1z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-1.9 14-5.4l-6.5-5.4c-2 1.5-4.6 2.4-7.5 2.4-5.3 0-9.6-3.4-11.3-8l-6.6 5.1c3.3 6.6 10.1 11.3 17.9 11.3z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.6l6.5 5.4c3.8-3.5 6.7-8.8 6.7-15 0-1.2-.1-2.4-.4-3.5z"/></svg>
+            <span data-i18n="google_label">Reseña de Google</span>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p data-i18n="rev1">"Siempre vengo a tratarme con Maria. Hoy hicimos reflexología mi marido y yo juntos. Muy relajante, verdaderas profesionales. Volveremos en nuestras próximas vacaciones."</p>
+          <div class="who" data-i18n="rev1_who">Cliente habitual</div>
+        </div>
+        <div class="t-card">
+          <div class="google-mark">
+            <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5c-7.9 0-14.6 4.5-18 11.1z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-1.9 14-5.4l-6.5-5.4c-2 1.5-4.6 2.4-7.5 2.4-5.3 0-9.6-3.4-11.3-8l-6.6 5.1c3.3 6.6 10.1 11.3 17.9 11.3z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.6l6.5 5.4c3.8-3.5 6.7-8.8 6.7-15 0-1.2-.1-2.4-.4-3.5z"/></svg>
+            <span data-i18n="google_label">Reseña de Google</span>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p data-i18n="rev2">"¡Uno de los mejores masajes que he recibido! Me recibió Angelica, súper amable y profesional. El ambiente, limpio y cuidado hasta el último detalle."</p>
+          <div class="who" data-i18n="rev2_who">Visitante internacional</div>
+        </div>
+        <div class="t-card">
+          <div class="google-mark">
+            <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5c-7.9 0-14.6 4.5-18 11.1z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-1.9 14-5.4l-6.5-5.4c-2 1.5-4.6 2.4-7.5 2.4-5.3 0-9.6-3.4-11.3-8l-6.6 5.1c3.3 6.6 10.1 11.3 17.9 11.3z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.6l6.5 5.4c3.8-3.5 6.7-8.8 6.7-15 0-1.2-.1-2.4-.4-3.5z"/></svg>
+            <span data-i18n="google_label">Reseña de Google</span>
+          </div>
+          <div class="stars">★★★★★</div>
+          <p data-i18n="rev3">"Gracias por esta experiencia tan especial. El masaje fue relajante y curativo, mi hombro ya se siente mejor."</p>
+          <div class="who" data-i18n="rev3_who">Cliente local</div>
+        </div>
+      </div>
+
+      <div class="reviews-cta">
+        <a href="https://share.google/kjACDHc6cUmtteF5J" target="_blank" rel="noopener" class="btn btn-ghost" data-i18n="google_cta">Ver todas las reseñas en Google</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-strip">
+    <blockquote data-i18n="quote_text">"El masaje es la forma más antigua de medicina."</blockquote>
+    <cite data-i18n="quote_author">— Hipócrates, padre de la medicina (460–370 a.C.)</cite>
+  </div>
+
+  <div class="location-section section">
+    <div class="section-inner">
+      <span class="section-eyebrow" data-i18n="loc_eyebrow">A dos pasos de la playa</span>
+      <h2 data-i18n="loc_title">Ven y vence el estrés</h2>
+      <div class="location-grid" style="margin-top:50px;">
+        <div>
+          <p class="lead" data-i18n="loc_lead">Estamos en pleno centro de Fuengirola, a un paseo corto del paseo marítimo. Aquí el tiempo se detiene y los buenos aromas mandan.</p>
+          <div class="map-embed-wrap">
+            <iframe
+              src="https://www.google.com/maps?q=Aroma+Thai+Massage+%26+Wellness,+Calle+Oviedo+2,+29640+Fuengirola,+M%C3%A1laga&output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="Aroma Thai Massage & Wellness — mapa"></iframe>
+          </div>
+        </div>
+        <div class="location-card">
+          <h3 data-i18n="loc_card_title">Aroma Thai Massage & Wellness</h3>
+          <div class="loc-line">📍 <div><b data-i18n="loc_addr_label">Dirección</b>Calle Oviedo, 2, 29640 Fuengirola, Málaga</div></div>
+          <div class="loc-line">🕒 <div><b data-i18n="loc_hours_label">Horario</b><span data-i18n="loc_hours">Todos los días, 11:00 – 20:00</span></div></div>
+          <div class="loc-line">📞 <div><b data-i18n="loc_phone_label">Teléfono</b>+34 640 867 391</div></div>
+          <div class="loc-ctas">
+            <a href="https://wa.me/34640867391" class="btn btn-primary" target="_blank" data-i18n="loc_cta1">WhatsApp</a>
+            <a href="tel:+34640867391" class="btn btn-ghost" data-i18n="loc_cta2">Llamar</a>
+          </div>
+          <div class="loc-ctas">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=Aroma+Thai+Massage+%26+Wellness,+Calle+Oviedo+2,+29640+Fuengirola,+M%C3%A1laga&destination_place_id=ChIJTS1sqB7jcg0Rdn0HfL04Oz4" class="btn btn-ghost" target="_blank" data-i18n="loc_cta3">🧭 Cómo llegar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="fbrand">Aroma Thai Massage & Wellness</div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/aroma.thai.massage/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.8.31-1.48.72-2.16 1.4C1.3 2.71.89 3.39.58 4.18c-.3.76-.5 1.64-.56 2.91C-.04 8.37-.05 8.78-.05 12.05s.01 3.68.07 4.96c.06 1.27.26 2.15.56 2.91.31.8.72 1.48 1.4 2.16.68.68 1.36 1.09 2.16 1.4.76.3 1.64.5 2.91.56 1.28.06 1.69.07 4.96.07s3.68-.01 4.96-.07c1.27-.06 2.15-.26 2.91-.56.8-.31 1.48-.72 2.16-1.4.68-.68 1.09-1.36 1.4-2.16.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.96s-.01-3.68-.07-4.96c-.06-1.27-.26-2.15-.56-2.91-.31-.8-.72-1.48-1.4-2.16C20.71 1.3 20.03.89 19.23.58c-.76-.3-1.64-.5-2.91-.56C14.99-.04 14.58-.05 11.31-.05L12 0m0 5.84c-3.42 0-6.2 2.78-6.2 6.2s2.78 6.2 6.2 6.2 6.2-2.78 6.2-6.2-2.78-6.2-6.2-6.2m0 10.23c-2.22 0-4.03-1.8-4.03-4.03 0-2.22 1.8-4.03 4.03-4.03 2.22 0 4.03 1.8 4.03 4.03 0 2.22-1.8 4.03-4.03 4.03M19.85 5.6c0 .8-.65 1.44-1.44 1.44-.8 0-1.44-.65-1.44-1.44 0-.8.65-1.44 1.44-1.44.8 0 1.44.65 1.44 1.44"/></svg>
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=100092399754630" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94"/></svg>
+      </a>
+    </div>
+    <p>Calle Oviedo, 2 · 29640 Fuengirola, Málaga · <a href="tel:+34640867391">+34 640 867 391</a></p>
+    <p style="margin-top:14px; opacity:.6" data-i18n="footer_note">Masaje tailandés y ayurvédico en Fuengirola</p>
+  </footer>
+
+</main>
+
+<script>
+/* ===================== I18N ===================== */
+const I18N = {
+  es:{
+    headerCta:"Reservar",
+    s1_eyebrow:"Fuengirola · Calle Oviedo, 2",
+    s1_title:"Aromas que sanan,<br>manos que despiertan",
+    s1_body:"Un santuario en pleno centro de Fuengirola donde el masaje tailandés, ayurvédico y terapéutico te devuelve a tu mejor estado: cuerpo ligero, mente en calma.",
+    s1_cta1:"Reservar por WhatsApp", s1_cta2:"Llamar",
+    s2_eyebrow:"Bienvenida",
+    s2_title:"La puerta se abre<br><em>y el ruido se queda fuera</em>",
+    s2_body:"Buda te recibe en el umbral. Plantas, madera cálida y un primer aroma que ya empieza a bajarte las revoluciones antes de sentarte.",
+    s3_eyebrow:"Recepción",
+    s3_title:"Te escuchamos<br>antes de tocarte",
+    s3_body:"Cada sesión empieza con una breve consulta: qué te molesta, qué necesitas hoy. Elegimos juntas la técnica, la presión y el aroma que te van a acompañar.",
+    s4_eyebrow:"El pasillo",
+    s4_title:"Cada cortina que cruzas<br>te aleja un poco más del estrés",
+    s5_eyebrow:"La camilla",
+    s5_title:"Manos expertas,<br>presión exacta",
+    s5_body:"Masaje tailandés con aceite, tradicional en seco, deportivo o balinés-sueco. Aceites premium DoTerra, Pranarom y Young Living. Tú decides cuánto tiempo quieres quedarte aquí.",
+    s5_chip1:"60 min · <b>desde 55€</b>", s5_chip2:"90 min · <b>desde 85€</b>", s5_chip3:"120 min · <b>desde 110€</b>",
+    s5_cta:"Ver todos los masajes", book_btn:"Reservar este masaje", book_msg:"Hola! Quiero reservar el masaje: ",
+    s6_eyebrow:"Tu momento",
+    s6_title:"Sal oliendo a gloria.<br><em>Vuelve cuando lo necesites.</em>",
+    s6_cta:"Reservar mi sesión",
+    scrollHint:"Desliza",
+    stage1:"Entrada", stage2:"Bienvenida", stage3:"Recepción", stage4:"El pasillo", stage5:"La camilla", stage6:"Tu momento",
+    menu_eyebrow:"Catálogo aromático",
+    menu_title:"Encuentra tu masaje perfecto",
+    menu_lead:"Treinta minutos de desconexión o dos horas de viaje sensorial: tú eliges. Cada ficha incluye duración, precio y para qué es ideal.",
+    srv1_title:"Masaje tailandés con aceite",
+    srv1_desc:"Tradición tailandesa con la suavidad del aceite caliente. Movimientos rítmicos y estiramientos delicados que desbloquean la energía estancada.",
+    srv1_ideal:"Ideal para: estrés, fatiga muscular, piel seca", srv1_dur:"60 / 90 / 120 min", srv1_price:"60€ · 85€ · 110€",
+    srv2_title:"Masaje tradicional tailandés (sin aceite)",
+    srv2_desc:"Realizado en futón con ropa cómoda: digitopresiones, estiramientos pasivos y trabajo sobre las líneas energéticas del cuerpo.",
+    srv2_ideal:"Ideal para: tensión profunda, movilidad, recuperación deportiva", srv2_dur:"60 / 90 / 120 min", srv2_price:"70€ · 100€ · 125€",
+    srv3_title:"Masaje deportivo tailandés",
+    srv3_desc:"Versión dinámica adaptada a cuerpos activos: presión, estiramientos y movilización articular para liberar tensiones y prevenir lesiones.",
+    srv3_ideal:"Ideal para: deportistas, recuperación muscular", srv3_dur:"60 / 90 / 120 min", srv3_price:"70€ · 100€ · 125€",
+    srv4_title:"Masaje balinés-sueco",
+    srv4_desc:"Lo mejor de Oriente y Occidente: presiones profundas y aromaterapia balinesa con los movimientos largos y envolventes del masaje sueco.",
+    srv4_ideal:"Ideal para: relajación profunda, circulación", srv4_dur:"60 / 90 / 120 min", srv4_price:"55€ · 85€ · 110€",
+    srv5_title:"Masaje con piedras calientes",
+    srv5_desc:"Piedras volcánicas colocadas estratégicamente para liberar tensiones profundas y equilibrar el flujo energético junto a un masaje manual.",
+    srv5_ideal:"Ideal para: tensión muscular, dolores crónicos", srv5_dur:"60 / 90 / 120 min", srv5_price:"60€ · 85€ · 110€",
+    srv6_title:"Consultas ayurvédicas y faciales",
+    srv6_desc:"Desde masajes faciales y craneales hasta consultas ayurvédicas y naturopáticas y planes de recuperación para cuerpos en movimiento.",
+    srv6_ideal:"Pregúntanos por el plan que mejor se adapte a ti", srv6_dur:"Consultar", srv6_price:"Desde 22€",
+    rev_eyebrow:"Lo que dicen al salir",
+    google_count:"Reseñas de Google", google_label:"Reseña de Google", google_cta:"Ver todas las reseñas en Google",
+    rev_title:"Clientes que vuelven cada vez que pasan por Fuengirola",
+    rev1:"\u201cSiempre vengo a tratarme con Maria. Hoy hicimos reflexología mi marido y yo juntos. Muy relajante, verdaderas profesionales. Volveremos en nuestras próximas vacaciones.\u201d",
+    rev1_who:"Cliente habitual",
+    rev2:"\u201c¡Uno de los mejores masajes que he recibido! Me recibió Angelica, súper amable y profesional. El ambiente, limpio y cuidado hasta el último detalle.\u201d",
+    rev2_who:"Visitante internacional",
+    rev3:"\u201cGracias por esta experiencia tan especial. El masaje fue relajante y curativo, mi hombro ya se siente mejor.\u201d",
+    rev3_who:"Cliente local",
+    quote_text:"\u201cEl masaje es la forma más antigua de medicina.\u201d",
+    quote_author:"— Hipócrates, padre de la medicina (460–370 a.C.)",
+    loc_eyebrow:"A dos pasos de la playa",
+    loc_title:"Ven y vence el estrés",
+    loc_lead:"Estamos en pleno centro de Fuengirola, a un paseo corto del paseo marítimo. Aquí el tiempo se detiene y los buenos aromas mandan.",
+    loc_card_title:"Aroma Thai Massage & Wellness",
+    loc_addr_label:"Dirección", loc_hours_label:"Horario", loc_hours:"Todos los días, 11:00 – 20:00", loc_phone_label:"Teléfono",
+    loc_cta1:"WhatsApp", loc_cta2:"Llamar", loc_cta3:"🧭 Cómo llegar",
+    footer_note:"Masaje tailandés y ayurvédico en Fuengirola"
+  },
+  en:{
+    headerCta:"Book now",
+    s1_eyebrow:"Fuengirola · Calle Oviedo, 2",
+    s1_title:"Aromas that heal,<br>hands that awaken",
+    s1_body:"A sanctuary in the heart of Fuengirola where Thai, Ayurvedic and therapeutic massage bring you back to your best self: a light body, a calm mind.",
+    s1_cta1:"Book on WhatsApp", s1_cta2:"Call us",
+    s2_eyebrow:"Welcome",
+    s2_title:"The door opens<br><em>and the noise stays outside</em>",
+    s2_body:"Buddha greets you at the threshold. Plants, warm wood and the first scent that already starts slowing you down before you even sit.",
+    s3_eyebrow:"Reception",
+    s3_title:"We listen<br>before we touch",
+    s3_body:"Every session starts with a short chat: what's bothering you, what you need today. Together we choose the technique, the pressure and the aroma for your session.",
+    s4_eyebrow:"The corridor",
+    s4_title:"Every curtain you cross<br>leaves a little more stress behind",
+    s5_eyebrow:"The table",
+    s5_title:"Expert hands,<br>exact pressure",
+    s5_body:"Thai oil massage, traditional dry massage, sports or Balinese-Swedish. Premium oils from DoTerra, Pranarom and Young Living. You decide how long you want to stay here.",
+    s5_chip1:"60 min · <b>from 55€</b>", s5_chip2:"90 min · <b>from 85€</b>", s5_chip3:"120 min · <b>from 110€</b>",
+    s5_cta:"See all massages", book_btn:"Book this massage", book_msg:"Hi! I'd like to book the massage: ",
+    s6_eyebrow:"Your moment",
+    s6_title:"Leave smelling glorious.<br><em>Come back whenever you need to.</em>",
+    s6_cta:"Book my session",
+    scrollHint:"Scroll",
+    stage1:"Entrance", stage2:"Welcome", stage3:"Reception", stage4:"The corridor", stage5:"The table", stage6:"Your moment",
+    menu_eyebrow:"Aromatic menu",
+    menu_title:"Find your perfect massage",
+    menu_lead:"Thirty minutes of total disconnection or two hours of sensory journey: you choose. Each entry includes duration, price and what it's best for.",
+    srv1_title:"Thai oil massage",
+    srv1_desc:"Thai tradition with the softness of warm oil. Rhythmic movements and gentle stretches that release stagnant energy.",
+    srv1_ideal:"Best for: stress, muscle fatigue, dry skin", srv1_dur:"60 / 90 / 120 min", srv1_price:"€60 · €85 · €110",
+    srv2_title:"Traditional Thai massage (no oil)",
+    srv2_desc:"Performed on a futon in comfortable clothes: acupressure, passive stretches and work along the body's energy lines.",
+    srv2_ideal:"Best for: deep tension, mobility, sports recovery", srv2_dur:"60 / 90 / 120 min", srv2_price:"€70 · €100 · €125",
+    srv3_title:"Thai sports massage",
+    srv3_desc:"A dynamic version for active bodies: pressure, stretching and joint mobilization to release tension and prevent injury.",
+    srv3_ideal:"Best for: athletes, muscle recovery", srv3_dur:"60 / 90 / 120 min", srv3_price:"€70 · €100 · €125",
+    srv4_title:"Balinese-Swedish massage",
+    srv4_desc:"The best of East and West: deep Balinese pressure and aromatherapy with the long, flowing strokes of Swedish massage.",
+    srv4_ideal:"Best for: deep relaxation, circulation", srv4_dur:"60 / 90 / 120 min", srv4_price:"€55 · €85 · €110",
+    srv5_title:"Hot stone massage",
+    srv5_desc:"Volcanic stones placed strategically on the body to release deep tension and balance your energy flow, combined with manual massage.",
+    srv5_ideal:"Best for: muscle tension, chronic pain", srv5_dur:"60 / 90 / 120 min", srv5_price:"€60 · €85 · €110",
+    srv6_title:"Ayurvedic & facial treatments",
+    srv6_desc:"From facial and head massages to Ayurvedic and naturopathic consultations and recovery plans for active bodies.",
+    srv6_ideal:"Ask us about the plan that fits you best", srv6_dur:"On request", srv6_price:"From €22",
+    rev_eyebrow:"What they say afterwards",
+    google_count:"Google reviews", google_label:"Google review", google_cta:"See all reviews on Google",
+    rev_title:"Guests who come back every time they're in Fuengirola",
+    rev1:"\u201cI always come to Maria. Today my husband and I had reflexology together. So peaceful and relaxing, true professionals. We'll be back next holiday.\u201d",
+    rev1_who:"Returning guest",
+    rev2:"\u201cOne of the best massages I've ever had! Welcomed by Angelica, super kind and competent. The space was perfect, clean and detailed.\u201d",
+    rev2_who:"International visitor",
+    rev3:"\u201cThank you for this special experience! The massage was relaxing and healing, my shoulder already feels better.\u201d",
+    rev3_who:"Local guest",
+    quote_text:"\u201cMassage is the oldest form of medicine.\u201d",
+    quote_author:"— Hippocrates, father of medicine (460–370 BC)",
+    loc_eyebrow:"Steps from the beach",
+    loc_title:"Come and beat the stress",
+    loc_lead:"We're right in the centre of Fuengirola, a short walk from the seafront. Here time stops and good aromas take over.",
+    loc_card_title:"Aroma Thai Massage & Wellness",
+    loc_addr_label:"Address", loc_hours_label:"Hours", loc_hours:"Every day, 11:00 – 20:00", loc_phone_label:"Phone",
+    loc_cta1:"WhatsApp", loc_cta2:"Call", loc_cta3:"🧭 Get directions",
+    footer_note:"Thai and Ayurvedic massage in Fuengirola"
+  },
+  ru:{
+    headerCta:"Записаться",
+    s1_eyebrow:"Фуэнхирола · Calle Oviedo, 2",
+    s1_title:"Ароматы, что лечат,<br>руки, что пробуждают",
+    s1_body:"Святилище в самом центре Фуэнхиролы, где тайский, аюрведический и терапевтический массаж возвращают вас к лучшей версии себя: лёгкое тело, спокойный ум.",
+    s1_cta1:"Записаться в WhatsApp", s1_cta2:"Позвонить",
+    s2_eyebrow:"Встреча",
+    s2_title:"Дверь открывается —<br><em>шум остаётся снаружи</em>",
+    s2_body:"Будда встречает вас на пороге. Растения, тёплое дерево и первый аромат, который уже начинает замедлять вас ещё до того, как вы сели.",
+    s3_eyebrow:"Ресепшн",
+    s3_title:"Сначала слушаем,<br>потом касаемся",
+    s3_body:"Каждый сеанс начинается с короткой беседы: что беспокоит, что нужно именно сегодня. Вместе выбираем технику, силу нажима и аромат для вашего сеанса.",
+    s4_eyebrow:"Коридор",
+    s4_title:"Каждая занавеска —<br>и стресс позади",
+    s5_eyebrow:"Массажный стол",
+    s5_title:"Опытные руки,<br>точное давление",
+    s5_body:"Тайский массаж с маслом, традиционный сухой, спортивный или балийско-шведский. Премиальные масла DoTerra, Pranarom и Young Living. Сколько здесь оставаться — решаете вы.",
+    s5_chip1:"60 мин · <b>от 55€</b>", s5_chip2:"90 мин · <b>от 85€</b>", s5_chip3:"120 мин · <b>от 110€</b>",
+    s5_cta:"Все виды массажа", book_btn:"Записаться на этот массаж", book_msg:"Здравствуйте! Хочу записаться на массаж: ",
+    s6_eyebrow:"Ваш момент",
+    s6_title:"Уходите благоухая.<br><em>Возвращайтесь снова</em>",
+    s6_cta:"Записаться на сеанс",
+    scrollHint:"Листайте",
+    stage1:"Вход", stage2:"Встреча", stage3:"Ресепшн", stage4:"Коридор", stage5:"Стол", stage6:"Момент",
+    menu_eyebrow:"Ароматное меню",
+    menu_title:"Найдите свой идеальный массаж",
+    menu_lead:"Тридцать минут полного отключения или два часа чувственного путешествия — выбор за вами. В каждой карточке — длительность, цена и для чего подходит.",
+    srv1_title:"Тайский массаж с маслом",
+    srv1_desc:"Тайская традиция в сочетании с мягкостью тёплого масла. Ритмичные движения и деликатные растяжки освобождают застоявшуюся энергию.",
+    srv1_ideal:"Подходит при: стрессе, мышечной усталости, сухости кожи", srv1_dur:"60 / 90 / 120 мин", srv1_price:"60€ · 85€ · 110€",
+    srv2_title:"Традиционный тайский массаж (без масла)",
+    srv2_desc:"Выполняется на футоне в удобной одежде: точечное давление, пассивные растяжки и работа по энергетическим линиям тела.",
+    srv2_ideal:"Подходит при: глубоком напряжении, для подвижности, спортивного восстановления", srv2_dur:"60 / 90 / 120 мин", srv2_price:"70€ · 100€ · 125€",
+    srv3_title:"Тайский спортивный массаж",
+    srv3_desc:"Динамичная версия для активных тел: давление, растяжки и мобилизация суставов снимают напряжение и предотвращают травмы.",
+    srv3_ideal:"Подходит спортсменам, для восстановления мышц", srv3_dur:"60 / 90 / 120 мин", srv3_price:"70€ · 100€ · 125€",
+    srv4_title:"Балийско-шведский массаж",
+    srv4_desc:"Лучшее с Востока и Запада: глубокое балийское давление и ароматерапия с длинными, плавными движениями шведского массажа.",
+    srv4_ideal:"Подходит для глубокого расслабления, кровообращения", srv4_dur:"60 / 90 / 120 мин", srv4_price:"55€ · 85€ · 110€",
+    srv5_title:"Массаж горячими камнями",
+    srv5_desc:"Вулканические камни размещаются точечно на теле, снимая глубокое напряжение и балансируя энергию, в сочетании с ручным массажем.",
+    srv5_ideal:"Подходит при: мышечном напряжении, хронических болях", srv5_dur:"60 / 90 / 120 мин", srv5_price:"60€ · 85€ · 110€",
+    srv6_title:"Аюрведа и уход за лицом",
+    srv6_desc:"От массажа лица и головы до аюрведических и натуропатических консультаций и программ восстановления для активных людей.",
+    srv6_ideal:"Спросите нас о подходящей именно вам программе", srv6_dur:"По запросу", srv6_price:"От 22€",
+    rev_eyebrow:"Что говорят после",
+    google_count:"Отзывы в Google", google_label:"Отзыв в Google", google_cta:"Все отзывы в Google",
+    rev_title:"Гости, которые возвращаются каждый раз, когда оказываются в Фуэнхироле",
+    rev1:"\u201cВсегда хожу к Марии. Сегодня делали рефлексотерапию вместе с мужем. Очень спокойно и расслабляюще, настоящие профессионалы. Вернёмся в следующий отпуск.\u201d",
+    rev1_who:"Постоянный гость",
+    rev2:"\u201cОдин из лучших массажей в моей жизни! Встретила Анжелика — очень тёплая и профессиональная. Пространство идеально чистое, всё продумано до мелочей.\u201d",
+    rev2_who:"Гость из другой страны",
+    rev3:"\u201cСпасибо за этот особенный опыт! Массаж был расслабляющим и целительным, плечо уже чувствует себя лучше.\u201d",
+    rev3_who:"Местный гость",
+    quote_text:"\u201cМассаж — древнейшая форма медицины.\u201d",
+    quote_author:"— Гиппократ, отец медицины (460–370 до н.э.)",
+    loc_eyebrow:"В двух шагах от пляжа",
+    loc_title:"Приходите и победите стресс",
+    loc_lead:"Мы находимся в самом центре Фуэнхиролы, в нескольких минутах от набережной. Здесь время замедляется, а хорошие ароматы решают всё.",
+    loc_card_title:"Aroma Thai Massage & Wellness",
+    loc_addr_label:"Адрес", loc_hours_label:"Часы работы", loc_hours:"Ежедневно, 11:00 – 20:00", loc_phone_label:"Телефон",
+    loc_cta1:"WhatsApp", loc_cta2:"Позвонить", loc_cta3:"🧭 Построить маршрут",
+    footer_note:"Тайский и аюрведический массаж в Фуэнхироле"
+  }
+};
+
+let currentLang = 'es';
+
+function splitTitles(){
+  document.querySelectorAll('.slide-title').forEach(title=>{
+    const parts = title.innerHTML.split(/(<br\s*\/?>|<em>|<\/em>)/i);
+    let html='', delay=0, inEm=false;
+    parts.forEach(part=>{
+      if(/^<br/i.test(part)){ html+=part; return; }
+      if(/^<em>$/i.test(part)){ inEm=true; html+='<em>'; return; }
+      if(/^<\/em>$/i.test(part)){ inEm=false; html+='</em>'; return; }
+      for(const ch of part){
+        if(ch===' ') html+=' ';
+        else { html+=`<span class="char" style="transition-delay:${delay*0.03}s">${ch}</span>`; delay++; }
+      }
+    });
+    title.innerHTML = html;
+  });
+}
+
+function updateBookingLinks(){
+  const dict = I18N[currentLang];
+  document.querySelectorAll('.book-btn').forEach(btn=>{
+    const key = btn.getAttribute('data-service-key');
+    const serviceName = dict[key] || '';
+    const text = encodeURIComponent(dict.book_msg + serviceName);
+    btn.href = `https://wa.me/34640867391?text=${text}`;
+  });
+}
+
+function applyLang(lang){
+  currentLang = lang;
+  const dict = I18N[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined) el.textContent = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-html');
+    if(dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-title');
+    if(dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  splitTitles();
+  updateBookingLinks();
+  document.querySelectorAll('.lang-btn').forEach(b=> b.classList.toggle('active', b.dataset.lang===lang));
+  document.documentElement.lang = lang;
+  try{ localStorage.setItem('aroma_lang', lang); }catch(e){}
+}
+
+document.getElementById('langSwitch').addEventListener('click', e=>{
+  const btn = e.target.closest('.lang-btn');
+  if(!btn) return;
+  applyLang(btn.dataset.lang);
+});
+
+(function initLang(){
+  let saved = null;
+  try{ saved = localStorage.getItem('aroma_lang'); }catch(e){}
+  if(saved && I18N[saved]) currentLang = saved;
+  else {
+    const nav = (navigator.language||'es').slice(0,2);
+    if(I18N[nav]) currentLang = nav;
+  }
+})();
+
+/* ===================== VIDEO SCRUBBING ===================== */
+const video = document.getElementById('scrubVideo');
+const vCanvas = document.getElementById('videoCanvas');
+const vCtx = vCanvas.getContext('2d');
+let videoReady = false;
+
+function resizeCanvas(){
+  vCanvas.width = window.innerWidth * (window.devicePixelRatio||1);
+  vCanvas.height = window.innerHeight * (window.devicePixelRatio||1);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function drawVideoFrame(){
+  if(video.readyState < 2) return;
+  const cw=vCanvas.width, ch=vCanvas.height;
+  const vw=video.videoWidth, vh=video.videoHeight;
+  if(!vw || !vh) return;
+  const scale=Math.max(cw/vw, ch/vh);
+  const dw=vw*scale, dh=vh*scale;
+  vCtx.clearRect(0,0,cw,ch);
+  vCtx.drawImage(video, (cw-dw)/2, (ch-dh)/2, dw, dh);
+}
+
+function hideLoader(){
+  const ov = document.getElementById('loadingOverlay');
+  if(!ov) return;
+  ov.classList.add('loader-hidden');
+  setTimeout(()=>{ ov.style.display='none'; }, 850);
+}
+
+// Loader hides fast regardless of video state — never block the page on video unlock.
+let loaderHidden = false;
+function hideLoaderOnce(){
+  if(loaderHidden) return;
+  loaderHidden = true;
+  hideLoader();
+}
+
+function tryUnlockVideo(){
+  if(videoReady) return;
+  const p = video.play();
+  if(p && p.then){
+    p.then(()=>{
+      video.pause();
+      videoReady = true;
+      drawVideoFrame();
+    }).catch(()=>{ /* will retry on next user gesture */ });
+  } else {
+    // older browsers with no Promise-based play()
+    try{ video.pause(); }catch(e){}
+    videoReady = true;
+    drawVideoFrame();
+  }
+}
+
+video.addEventListener('loadeddata', tryUnlockVideo);
+video.addEventListener('canplay', tryUnlockVideo);
+video.addEventListener('error', ()=>{ videoReady = false; });
+
+// Loader: hide as soon as video has minimal data, or after a short timeout — whichever first.
+video.addEventListener('loadeddata', hideLoaderOnce);
+setTimeout(hideLoaderOnce, 1800);
+
+// Reliable mobile fallback: any first user interaction (touch, scroll, click) is a real
+// user gesture and will always succeed in unlocking play()/seek on iOS Safari and mobile Chrome,
+// even if the automatic attempt above silently failed.
+function unlockOnFirstGesture(){
+  tryUnlockVideo();
+}
+['touchstart','scroll','click','wheel'].forEach(evt=>{
+  window.addEventListener(evt, unlockOnFirstGesture, { once:false, passive:true });
+});
+// Once unlocked, stop listening — no need to keep retrying.
+const gestureCheckInterval = setInterval(()=>{
+  if(videoReady){
+    ['touchstart','scroll','click','wheel'].forEach(evt=>{
+      window.removeEventListener(evt, unlockOnFirstGesture);
+    });
+    clearInterval(gestureCheckInterval);
+  }
+}, 500);
+
+function unlockVideoForIOS(){ tryUnlockVideo(); } // kept for compatibility, no longer the only path
+
+function updateVideoScrub(scroll){
+  if(!videoReady || !video.duration) return;
+  const vStart=0.0, vEnd=0.62; // video plays during the cinematic section only
+  const t=Math.max(0,Math.min(1,(scroll-vStart)/(vEnd-vStart)));
+  let op=1;
+  if(scroll<0.015) op = scroll/0.015;
+  if(t>0.93) op=Math.max(0, 1-(t-0.93)/0.07);
+  vCanvas.style.opacity = op;
+  const targetTime = t * video.duration;
+  if(Math.abs(targetTime - video.currentTime) > 0.016){
+    video.currentTime = targetTime;
+  }
+  drawVideoFrame();
+}
+
+/* ===================== SLIDES + PROGRESS ===================== */
+const stageKeys = ['stage1','stage2','stage3','stage4','stage5','stage6'];
+const slideRanges = [
+  {id:'slide-1', a:-0.1, b:0.09},
+  {id:'slide-2', a:0.10, b:0.155},
+  {id:'slide-3', a:0.165, b:0.35},
+  {id:'slide-4', a:0.37, b:0.455},
+  {id:'slide-5', a:0.465, b:0.66},
+  {id:'slide-6', a:0.70, b:1.05},
+];
+
+function updateSlides(s){
+  let activeIdx = -1;
+  slideRanges.forEach((r,i)=>{
+    const isActive = s>=r.a && s<=r.b;
+    const el = document.getElementById(r.id);
+    if(el) el.classList.toggle('active', isActive);
+    if(isActive) activeIdx = i;
+  });
+  if(activeIdx>=0){
+    const key = stageKeys[activeIdx];
+    document.getElementById('progressStage').textContent = I18N[currentLang][key] || '';
+  }
+  const hint = document.getElementById('scrollHint');
+  if(s>0.04) hint.classList.add('hide'); else hint.classList.remove('hide');
+}
+
+function updateProgress(s){
+  const pct = Math.max(0, Math.min(1, s));
+  document.getElementById('progressFill').style.width = (pct*100)+'%';
+  document.getElementById('progressPct').textContent = Math.round(pct*100)+'%';
+}
+
+/* ===================== INCENSE PARTICLES (signature element) ===================== */
+const incenseLayer = document.getElementById('incenseLayer');
+const NUM_DOTS = window.innerWidth < 768 ? 10 : 18;
+const dots = [];
+for(let i=0;i<NUM_DOTS;i++){
+  const d = document.createElement('div');
+  d.className = 'incense-dot';
+  const size = 3 + Math.random()*6;
+  d.style.width = size+'px';
+  d.style.height = size+'px';
+  d.style.left = Math.random()*100+'vw';
+  d.style.top = Math.random()*100+'vh';
+  incenseLayer.appendChild(d);
+  dots.push({
+    el:d,
+    x: Math.random()*window.innerWidth,
+    y: Math.random()*window.innerHeight,
+    vx: (Math.random()-0.5)*0.15,
+    vy: -0.08 - Math.random()*0.12,
+    drift: Math.random()*Math.PI*2
+  });
+}
+function updateIncense(){
+  dots.forEach(p=>{
+    p.drift += 0.004;
+    p.x += p.vx + Math.sin(p.drift)*0.12;
+    p.y += p.vy;
+    if(p.y < -20){ p.y = window.innerHeight+20; p.x = Math.random()*window.innerWidth; }
+    if(p.x < -20) p.x = window.innerWidth+20;
+    if(p.x > window.innerWidth+20) p.x = -20;
+    p.el.style.transform = `translate(${p.x}px, ${p.y}px)`;
+  });
+}
+
+/* ===================== MAIN ANIMATE LOOP ===================== */
+let currentScroll = 0;
+function animate(){
+  requestAnimationFrame(animate);
+  const maxS = document.documentElement.scrollHeight - window.innerHeight;
+  // The cinematic (video) experience only occupies the first portion of total scroll.
+  // We map scroll progress within that zone (0 to cinematicZonePx) to 0..1 for slides/video.
+  const cinematicZonePx = window.innerHeight * 8.5; // ~8.5 screens tall for the video journey
+  const rawScroll = window.scrollY || 0;
+  const targetScroll = cinematicZonePx>0 ? Math.min(1.05, rawScroll/cinematicZonePx) : 0;
+  currentScroll += (targetScroll - currentScroll)*0.08;
+  updateSlides(currentScroll);
+  updateVideoScrub(currentScroll);
+  updateProgress(Math.min(1,currentScroll));
+  updateIncense();
+
+  // pin the cinematic layers visually while in zone, fade out smoothly past the zone
+  const container = document.querySelector('.cinematic-container');
+  const fixedLayers = document.getElementById('fixedLayers');
+  if(rawScroll > cinematicZonePx*1.05){
+    container.style.opacity = 0;
+    container.style.pointerEvents = 'none';
+    fixedLayers.style.display = 'none';
+  } else {
+    fixedLayers.style.display = '';
+    const fadeStart = cinematicZonePx*0.97;
+    let op = 1;
+    if(rawScroll > fadeStart){
+      const fadeT = (rawScroll-fadeStart)/(cinematicZonePx*0.08);
+      op = Math.max(0, 1-fadeT);
+    }
+    container.style.opacity = op;
+    container.style.pointerEvents = op<0.05 ? 'none' : '';
+    fixedLayers.style.opacity = op;
+  }
+}
+
+/* set body height: cinematic zone (8.5 screens) pushes static content down via padding-top on a wrapper to avoid margin collapse */
+function setBodyHeight(){
+  const cinematicZonePx = window.innerHeight * 8.5;
+  document.getElementById('staticContent').style.marginTop = '0px';
+  document.body.style.paddingTop = cinematicZonePx + 'px';
+  document.body.style.minHeight = '0px';
+}
+
+window.addEventListener('load', ()=>{
+  applyLang(currentLang);
+  setBodyHeight();
+  setTimeout(setBodyHeight, 400);
+  tryUnlockVideo();
+});
+window.addEventListener('resize', setBodyHeight);
+
+// Also try immediately, in case metadata is already available (desktop browsers usually allow this).
+tryUnlockVideo();
+
+requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
